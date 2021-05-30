@@ -2,6 +2,7 @@ package com.sam.models;
 
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -13,10 +14,15 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String password;
+    @Column(unique = true, nullable = false)
     private String username;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> authorities = new ArrayList<>();
+    @Column(name = "last_login_date")
+    private LocalDateTime lastLoginDate;
 
     public User() {
     }
@@ -36,6 +42,20 @@ public class User {
         this.password = password;
         this.username = username;
         this.authorities = authorities;
+    }
+
+    public User(String password, String username, LocalDateTime lastLoginDate) {
+        this.password = password;
+        this.username = username;
+        this.lastLoginDate = lastLoginDate;
+    }
+
+    public LocalDateTime getLastLoginDate() {
+        return lastLoginDate;
+    }
+
+    public void setLastLoginDate(LocalDateTime lastLoginDate) {
+        this.lastLoginDate = lastLoginDate;
     }
 
     public Long getId() {
@@ -90,6 +110,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", username='" + username + '\'' +
                 ", authorities=" + authorities +
+                ", lastLoginDate=" + lastLoginDate +
                 '}';
     }
 }

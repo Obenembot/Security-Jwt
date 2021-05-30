@@ -25,6 +25,8 @@ public class MyUserDetailsService implements UserDetailsService {
             new User("run", "run", new ArrayList<>())
     );
 
+    //If you want to use the default data above remove Exchange from this method name.
+    //then comment the method at line 45
     //@Override
     public UserDetails loadUserByUsernameExchange(String username) throws UsernameNotFoundException {
 
@@ -38,6 +40,7 @@ public class MyUserDetailsService implements UserDetailsService {
         return userr;
     }
 
+    //Using the data from db.
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -49,13 +52,6 @@ public class MyUserDetailsService implements UserDetailsService {
         if (existingUser != null) {
             user = new User(existingUser.getUsername(), existingUser.getPassword(), new ArrayList<>());
             return user;
-        } else {
-            for (User user1 : users) {
-                if (user1.getUsername().equals(username)) {
-                    user =  user1;
-                    break;
-                }
-            }
         }
         return user;
     }
