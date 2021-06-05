@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -22,6 +23,7 @@ public class UserResource {
     @PostMapping("/user")
     public ResponseEntity<User> save(@RequestBody User user) {
         log.info("Request To save user", user);
+        user.setLastLoginDate(LocalDateTime.now());
         User result = userService.save(user);
         return ResponseEntity.ok(result);
     }
