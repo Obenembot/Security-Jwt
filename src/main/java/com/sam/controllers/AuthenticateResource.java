@@ -40,24 +40,24 @@ public class AuthenticateResource {
 
     @RequestMapping(method = RequestMethod.POST, value = "/authenticate")
     public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+         String jwtToken = null;
         try {
             logger.info("Authentication Body { } " + authenticationRequest.toString());
             this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
                     authenticationRequest.getPassword()));
 
 
-        } catch (BadCredentialsException b) {
-            logger.info("Incorrect Username or Password  { } ");
-            throw new Exception("Incorrect Username or Password " + b);
-        }
-
         final UserDetails userDetails = this.userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        final String jwtToken = this.jwtUtil.generateToken(userDetails);
+       jwtToken = this.jwtUtil.generateToken(userDetails);
 
         if (userDetails != null) {
             User user = this.userService.findByUsername(authenticationRequest.getUsername());
             user.setLastLoginDate(LocalDateTime.now());
             userService.save(user);
+        }
+        } catch (BadCredentialsException b) {
+            logger.info("Incorrect Username or Password  { } ");
+            return ResponseEntity.badRequest().body(new Exception("Incorrect Username or Password ").getMessage());
         }
         return ResponseEntity.ok(new AuthenticationResponse(jwtToken));
     }

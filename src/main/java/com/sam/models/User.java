@@ -24,6 +24,21 @@ public class User {
     @Column(name = "last_login_date")
     private LocalDateTime lastLoginDate;
 
+    @Column(name = "enabled")
+    private Boolean enabled;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "lock_time")
+    private LocalDateTime lockTime;
+
+    @Column(name = "failed_attempt")
+    private Short failedAttempt;
+
+    @Column(name = "user_locked")
+    private Boolean userLocked;
+
     public User() {
     }
 
@@ -111,6 +126,51 @@ public class User {
                 ", username='" + username + '\'' +
                 ", authorities=" + authorities +
                 ", lastLoginDate=" + lastLoginDate +
+                ", email='" + email + '\'' +
+                ", lockTime=" + lockTime +
+                ", failedAttempt=" + failedAttempt +
+                ", userLocked=" + userLocked +
+                ", enabled=" + enabled +
                 '}';
+    }
+
+    public Boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public LocalDateTime getLockTime() {
+        return lockTime;
+    }
+
+    public void setLockTime(LocalDateTime lockTime) {
+        this.lockTime = lockTime;
+    }
+
+    public Short getFailedAttempt() {
+        return failedAttempt;
+    }
+
+    public void setFailedAttempt(Short failedAttempt) {
+        this.failedAttempt = failedAttempt;
+    }
+
+    public Boolean getUserLocked() {
+        return userLocked;
+    }
+
+    public void setUserLocked(Boolean userLocked) {
+        this.userLocked = userLocked;
     }
 }

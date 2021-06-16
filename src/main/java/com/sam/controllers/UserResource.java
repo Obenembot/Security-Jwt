@@ -40,4 +40,13 @@ public class UserResource {
     public ResponseEntity<List<User>> allUsers() {
         return ResponseEntity.ok(userService.findAll());
     }
+
+    @PutMapping("/user/unlock-user")
+    public ResponseEntity<User> unlockUserAccount(@RequestBody User user) {
+        user.setUserLocked(false);
+        user.setLockTime(null);
+        user.setEnabled(true);
+        User result = this.userService.save(user);
+        return ResponseEntity.ok(result);
+    }
 }

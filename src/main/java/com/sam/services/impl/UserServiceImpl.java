@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -56,5 +57,18 @@ public class UserServiceImpl implements UserService {
     public void delete(User user) {
         log.info("Request To delete user");
         userRepository.delete(user);
+    }
+
+    @Override
+    public User updateFailedAttempts(Integer failedAttempts, String username) {
+        log.info("Request To update Failed Attempts");
+        return this.userRepository.updateFailedAttempts(failedAttempts, username);
+    }
+
+    @Override
+    public void lockUser(User user) {
+        user.setUserLocked(true);
+        user.setLockTime(LocalDateTime.now());
+        this.userRepository.save(user);
     }
 }
